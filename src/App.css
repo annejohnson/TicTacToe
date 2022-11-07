@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.game-board {
+}
+
+.game-board-row {
+  display: flex;
+  justify-content: center;
+}
+
+.game-board-square {
+  height: 20vmin;
+  width: 20vmin;
+  font-size: 15vmin;
+}
+
+.new-game-button {
+  font-size: calc(10px + 2vmin);
+  margin: 4vmin auto;
+}
