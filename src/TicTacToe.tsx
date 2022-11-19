@@ -1,12 +1,9 @@
 import React from 'react';
+import Player from './Player';
+import WinnerAnnouncement from './WinnerAnnouncement';
 
 const numberOfTicTacToeSquaresPerRow: number = 3;
 const totalNumberOfTicTacToeSquares: number = numberOfTicTacToeSquaresPerRow ** 2;
-
-enum Player {
-  X = 1,
-  O
-}
 
 // TODO:
 // - Handle draws
@@ -151,7 +148,7 @@ export default class TicTacToe extends React.Component<
     return (
       <div>
         {this.state.winner ? (
-          <p>Congrats, Player {Player[this.state.winner]}. You've won!</p>
+          <WinnerAnnouncement winningPlayer={this.state.winner} />
         ) : (
           <Instruction currentPlayer={this.state.currentPlayer} />
         )}
