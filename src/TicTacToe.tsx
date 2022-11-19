@@ -109,9 +109,7 @@ export default class TicTacToe extends React.Component<
     for (let i = 0; i < numSquaresPerRow; i += 1) {
       // Check ith row
       const row = squares.slice(i * numSquaresPerRow, (i * numSquaresPerRow) + numSquaresPerRow);
-      console.log("Checking row: " + JSON.stringify(row));
       if (row[0] && allEqual(row)) {
-        console.log("Player " + row[0] + " has won");
         return row[0];
       }
 
@@ -120,7 +118,6 @@ export default class TicTacToe extends React.Component<
       for (let j = 0; j < numSquaresPerRow; j += 1) {
         column.push(squares[i + (j * numSquaresPerRow)]);
       }
-      console.log("Checking column: " + JSON.stringify(column));
       if (column[0] && allEqual(column)) {
         return column[0];
       }
@@ -131,12 +128,10 @@ export default class TicTacToe extends React.Component<
       secondDiagonal.push(squares[i * numSquaresPerRow + (numSquaresPerRow - i - 1)]);
     }
 
-    console.log("Checking 1st diagonal: " + JSON.stringify(firstDiagonal));
     if (firstDiagonal[0] && allEqual(firstDiagonal)) {
         return firstDiagonal[0];
     }
 
-    console.log("Checking 2nd diagonal: " + JSON.stringify(secondDiagonal));
     if (secondDiagonal[0] && allEqual(secondDiagonal)) {
         return secondDiagonal[0];
     }
