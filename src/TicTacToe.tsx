@@ -20,33 +20,30 @@ interface TicTacToeState {
   winner: Player | null;
 }
 
-const playerToString = (player: Player): string => {
-  switch (player) {
-    case Player.X:
-      return 'X';
-    case Player.O:
-      return 'O';
-  }
-};
-
 const Instruction: React.FunctionComponent<
   { currentPlayer: Player }
 > = ({ currentPlayer }) => {
-  return <p>Player {playerToString(currentPlayer)}, it's your turn. Click on a square.</p>;
+  return <p>Player {Player[currentPlayer]}, it's your turn. Click on a square.</p>;
 };
 
-const GameBoard: React.FunctionComponent<
-  {
-    squares: Array<Player | null>,
-    onSquareClick: (idx: number) => void
+const arrangeArrayIntoSquare = (arr: Array<unknown>): Array<Array<unknown>> => {
+  // TODO: Throw an error if itemsPerRow is not a whole number
+  const itemsPerRow = arr.length ** 0.5;
+  const rows = [];
+  for (let i = 0; i < arr.length; i += itemsPerRow) {
+    const row = arr.slice(i, i + itemsPerRow);
+    rows.push(row);
   }
-> = ({ squares, onSquareClick }) => {
-  const squaresPerRow = squares.length ** 0.5;
-  const rowsOfSquares = [];
-  for (let i = 0; i < squares.length; i += squaresPerRow) {
-    const rowOfSquares = squares.slice(i, i + squaresPerRow);
-    rowsOfSquares.push(rowOfSquares);
-  }
+  return rows;
+};
+
+const GameBoard: React.FunctionComponent<{
+  squares: Array<Player | null>,
+  onSquareClick: (idx: number) => void
+}> = ({ squares, onSquareClick }) => {
+
+  const rowsOfSquares = arrangeArrayIntoSquare(squares);
+  const squaresPerRow = rowsOfSquares[0].length;
 
   return (
     <div className="game-board">
@@ -55,7 +52,7 @@ const GameBoard: React.FunctionComponent<
           <div className="game-board-row" key={rowIdx}>
             {rowOfSquares.map((square, colIdx) => {
               const squareIdx = (rowIdx * squaresPerRow) + colIdx;
-              const buttonContent = typeof square === 'number' ? playerToString(square) : ' ';
+              const buttonContent = typeof square === 'number' ? Player[square] : ' ';
               return <button className="game-board-square" onClick={() => onSquareClick(squareIdx)} key={`${rowIdx}-${colIdx}`}>{buttonContent}</button>;
             })}
           </div>
@@ -154,7 +151,7 @@ export default class TicTacToe extends React.Component<
     return (
       <div>
         {this.state.winner ? (
-          <p>Congrats, Player {playerToString(this.state.winner)}. You've won!</p>
+          <p>Congrats, Player {Player[this.state.winner]}. You've won!</p>
         ) : (
           <Instruction currentPlayer={this.state.currentPlayer} />
         )}
